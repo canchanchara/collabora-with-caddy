@@ -1,0 +1,28 @@
+version: '3.3'
+
+volumes:
+  caddy_data:
+      driver: local
+
+services:
+
+  collabora:
+    image: collabora/code
+    container_name: collabora_app
+    cap_add:
+      - MKNOD
+    environment:
+      - aliasgroup1=https://mynextcloud.mydomain.org        #Nextcloud Instance
+      - username=admin        
+      - password=supersecretchangeme         
+    restart: unless-stopped
+
+  proxy:
+      image: caddy
+      ports:
+        - 443:443
+        - 80:80
+      volumes:
+        - caddy_data:/data
+        - $PWD/caddy/Caddyfile:/etc/caddy/Caddyfile
+        - $PWD/static:/srv

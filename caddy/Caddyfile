@@ -1,0 +1,7 @@
+collabora.mydomain.org {
+  encode gzip
+  reverse_proxy https://collabora:9980 {
+    transport http {
+      tls_insecure_skip_verify
+    }
+}
